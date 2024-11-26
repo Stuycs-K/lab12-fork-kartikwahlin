@@ -7,6 +7,7 @@
 #include <math.h>
 
 int main(){
+  printf("_%d_ about to create 2 child processes.\n",getpid());
   pid_t p;
   p = fork();
   if(p<0){
@@ -19,9 +20,8 @@ int main(){
     int myPid = getpid();
     printf("PID: %d %d\n", myPid,rando);
     sleep(rando);
-    printf("%d FINISHED\n",myPid);
+    printf("%d FINISHED after %d sec\n",myPid,rando);
   }else{
-      printf("Hello from Parent!\n");
       pid_t p2;
       p2 = fork();
       if(p2<0){
@@ -34,9 +34,16 @@ int main(){
         int myPid = getpid();
         printf("PID: %d %d\n", myPid,rando);
         sleep(rando);
-        printf("%d FINISHED\n",myPid);
+        printf("%d FINISHED after %d sec\n",myPid,rando);
       }else{
-          printf("Hello from Parent2!\n");
+          int* status;
+          pid_t deadchild;
+          deadchild = wait(&status);
+          srand(time(NULL));
+          int rando;
+          rando = rand();
+          rando = 1+5*floor(rando/2147483647);
+          printf("Main Process %d is done. Child %d slept for %d sec.",getpid(),deadchild,rando);
       }
   }
 
