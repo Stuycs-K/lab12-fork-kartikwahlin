@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <time.h>
+#include <math.h>
 
 int main(){
   pid_t p;
@@ -14,10 +15,11 @@ int main(){
   } else if ( p == 0){
     srand(time(NULL));
     int rando = rand();
+    rando = 1+5*floor(rando/2147483647);
     int myPid = getpid();
     printf("PID: %d %d\n", myPid,rando);
     sleep(rando);
-    printf("%d FINISHED",myPid);
+    printf("%d FINISHED\n",myPid);
   }else{
       printf("Hello from Parent!\n");
       pid_t p2;
@@ -28,14 +30,15 @@ int main(){
       } else if ( p2 == 0){
         srand(time(NULL)+1);
         int rando = rand();
+        rando = 1+5*floor(rando/2147483647);
         int myPid = getpid();
         printf("PID: %d %d\n", myPid,rando);
         sleep(rando);
-        printf("%d FINISHED",myPid);
+        printf("%d FINISHED\n",myPid);
       }else{
           printf("Hello from Parent2!\n");
       }
   }
 
-
+  return 0;
 }
